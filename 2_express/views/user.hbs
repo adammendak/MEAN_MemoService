@@ -1,3 +1,18 @@
+{{#if valid}}       
         <h1>Profile of User: </h1>
         <p>Name: <strong>{{name}}</strong></p>
         <p>Last Name: <strong>{{lastName}}</strong></p>
+{{else}}
+    You are not authorized
+{{/if}}
+</br>
+{{#each pets}}
+    {{this}}
+{{/each}}
+</br>
+{{#each parents}}
+    {{#each this as |val key|}}
+        {{key}} : {{val}}
+        </br>
+    {{/each}}
+{{/each}}

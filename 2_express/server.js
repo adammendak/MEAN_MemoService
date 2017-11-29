@@ -1,6 +1,15 @@
 const express = require('express');
 const hbs = require('express-handlebars')
+const bodyParser = require('body-parser')
+
 const app = express();
+
+const urlencodeParser = bodyParser.urlencoded({
+    extended: false
+})
+
+const jsonParser = bodyParser.json();
+
 
 app.engine("hbs", hbs({
     extname:"hbs",
@@ -37,7 +46,12 @@ app.get("/user", (req, res) => {
     res.render("user", {
         title: "user profile",
         name: "Adam",
-        lastName: "Mendak"
+        lastName: "Mendak",
+        valid: false,
+        pets: ["dog", "cat"], 
+        parents:[
+            {dad:"Adam", mother:"Urszula"}
+        ]
     })
 })
 
@@ -59,6 +73,31 @@ app.get("/api/user/:id", (req,res) => {
     </html> 
     `)
 })
+
+app.get("/newUser", (req,res) => {
+    res.render("newUser")
+})
+
+app.get("/newUserAjax", (req,res) => {
+    res.render("newUserAjax")
+})
+
+//############### POST ####################//
+
+app.post("/newUser", urlencodeParser, (req,res) => {
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+
+    console.log("first Name " + firstName + " lastName " + lastName)
+})
+
+app.post("/newUserAjax", jsonParser, (req,res) => {
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+
+    console.log("first Name " + firstName + " lastName " + lastName)
+})
+
 
 
 const port = process.env.port || 3000;
