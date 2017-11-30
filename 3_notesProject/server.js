@@ -21,9 +21,39 @@ const jsonParser = bodyParser.json();
 
 //################ GET ########################
 app.get("/", (req,res) => {
-    res.render("home")
+
+    fetch('http://localhost:3004/messages')
+    .then((response) => {
+        response.json().then(json => {
+            res.render("home")
+        })
+    })
+    .catch(error => {
+        console.log(error)
+    })
+
+})  
+
+app.get("/add_note", (req,res) => {
+    res.render("add_note")
 })
 
+
+
+// ################### POST #####################
+app.post("/api/add_note", jsonParser, (req,res) => {
+    
+        fetch(('http://localhost:3004/messages'),{
+            method : "POST",
+            body : JSON.stringify(req.body),
+            Headers:{
+                "Content-Type":"application/json"     
+            }.then((response)=> {
+                res.status(200).send()
+            })
+        })
+        console.log(req.body)
+    })
 
 
 
