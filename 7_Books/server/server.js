@@ -30,6 +30,24 @@ app.get('/api/stores',(req,res)=>{
 
 })
 
+app.post('/api/add/books', (req,res)=> {
+
+    const book = new Book({
+        name: req.body.name,
+        author: req.body.author,
+        pages: req.body.pages,
+        price: req.body.price,
+        stores: req.body.stores
+    });
+
+    book.save((err,doc)=> {
+        if(err) res.status(400).send();
+
+        res.status(200).send();
+    })
+
+})
+
 
 app.post('/api/add/store', (req,res) => {
 
