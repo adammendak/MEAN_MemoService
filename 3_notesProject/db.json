@@ -1,0 +1,33 @@
+{
+  "messages": [
+    {
+      "id": 2,
+      "title": "text",
+      "owner": "xCZV",
+      "message": "avxc"
+    },
+    {
+      "owner": "sdfg",
+      "title": "sdfg",
+      "message": "sdfg",
+      "id": 3
+    }
+  ],
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}
