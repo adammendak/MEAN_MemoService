@@ -11,27 +11,24 @@ const userSchema = mongoose.Schema({
         unique: true
     },
     password: {
-        tupe: String,
+        type: String,
         required: true,
-        minlength : 6,
+        trim: true,
+        minlength: 6
     }
 });
 
 //pre oznacza ze zadnim zapiszemy w bazie danych to wywolujemy ta metode
-userSchema.pre('save', function(next) {
+userSchema.pre('save',function(next){
     var user = this;
-
-    if (user.isModified('password')) {
-
-        bcrypt.genSalt(SALT_I, function (err, salt) {
-            if (err) return next(err);
-            bcrypt.hash(user.password, salt, function (err, hash) {
-                if (err) return next(err)
-
+    if(user.isModified('password')){
+        bcrypt.genSalt(SALT_I,function(err,salt){
+            if(err) return next(err);
+            bcrypt.hash(user.password,salt,function(err,hash){
+                if(err) return next(err);
                 user.password = hash;
                 next();
-
-            });
+            })
         })
     } else {
         next();
@@ -40,4 +37,4 @@ userSchema.pre('save', function(next) {
 
 const User = mongoose.model('User', userSchema);
 
-module.exports = User;
+module.exports = {User};
