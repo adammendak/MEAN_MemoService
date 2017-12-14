@@ -1,9 +1,10 @@
 const express = require('express');
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 
-const bookRouter = express.Router();
 
 const routes = (Book) => {
+    const bookRouter = express.Router();
+    const bookController= require('../controllers/bookController')(Book);
 
     bookRouter.route('/')
         .get((req,res) => {
@@ -17,27 +18,16 @@ const routes = (Book) => {
                 res.json(books)
             })
         })
+        // .get(bookController.get())
         .post((req,res) => {
             let book = new Book(req.body);
 
             console.log(book);
             book.save();
             res.status(201).send(book);
-        });
+        })
+        // .post(bookController.post());
 
-
-    // bookRouter.use((req,res,next) => {
-    //     Book.findById(req.params.bookId, (err, book) => {
-    //         if (err) {
-    //             res.status(500).send(err);
-    //         } else if (book) {
-    //             req.book = book;
-    //             next();
-    //         } else {
-    //             res.status(404).send();
-    //         }
-    //     });
-    // });
     bookRouter.route('/:bookId')
         .all((req,res,next)=> {
             Book.findById(req.params.bookId, (err, book) => {
@@ -101,6 +91,5 @@ const routes = (Book) => {
         })
     return bookRouter;
 };
-
 
 module.exports = routes;
