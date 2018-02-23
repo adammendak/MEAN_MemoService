@@ -1,4 +1,6 @@
+"use strict";
 const express = require('express');
+const Book = require('../model/bookModel');
 // const mongoose = require('mongoose');
 
 
@@ -7,26 +9,26 @@ const routes = (Book) => {
     const bookController= require('../controllers/bookController')(Book);
 
     bookRouter.route('/')
-        .get((req,res) => {
-
-            let query = req.query;
-
-            Book.find(query, (err,books) => {
-                if(err) {
-                    res.status(500).send(err);
-                }
-                res.json(books)
-            })
-        })
-        // .get(bookController.get())
-        .post((req,res) => {
-            let book = new Book(req.body);
-
-            console.log(book);
-            book.save();
-            res.status(201).send(book);
-        })
-        // .post(bookController.post());
+        // .get((req,res) => {
+        //
+        //     let query = req.query;
+        //
+        //     Book.find(query, (err,books) => {
+        //         if(err) {
+        //             res.status(500).send(err);
+        //         }
+        //         res.json(books)
+        //     })
+        // })
+        .get(bookController.get)
+        // .post((req,res) => {
+        //     let book = new Book(req.body);
+        //
+        //     console.log(book);
+        //     book.save();
+        //     res.status(201).send(book);
+        // })
+        .post(bookController.post());
 
     bookRouter.route('/:bookId')
         .all((req,res,next)=> {
@@ -45,7 +47,7 @@ const routes = (Book) => {
         console.log(req.body);
         next();
         })
-        .get((req,res) => {
+        .get(function(req,res) {
         console.log(req.book);
             res.json(req.book);
         })

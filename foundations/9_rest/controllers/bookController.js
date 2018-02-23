@@ -1,22 +1,24 @@
-const bookController = function(Book) {
+"use strict";
+const Book = require('../model/bookModel');
+var bookController = function(Book) {
 
-    const post =function(req,res) {
-        let book = new Book(req.body);
+    var post =function(req,res) {
+        var book = new Book(req.body);
 
         console.log(book);
         book.save();
         res.status(201).send(book);
     };
 
-    const get = function(req,res) {
+    var get = function(req,res) {
 
-        Book.find((err, book) => {
+        Book.find(function(err, books) {
             if (err) {
                 res.status(500).send(err);
             }
             res.json(books)
-        })
-    };
+        });
+    }
 
     return {
         post: post,
