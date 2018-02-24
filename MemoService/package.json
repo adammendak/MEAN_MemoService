@@ -11,6 +11,7 @@
   "repository": "https://github.com/adammendak/nodeProjects",
   "dependencies": {
     "express": "^4.16.2",
+    "express-handlebars": "^3.0.0",
     "nodemon": "^1.15.1"
   }
 }
