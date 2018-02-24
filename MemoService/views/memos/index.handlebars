@@ -1,0 +1,10 @@
+<h1 class="text-center">Memos</h1>
+{{#each memos}}
+    <div class="card card-body mb-2">
+        <h4>{{title}}</h4>
+        <p>{{details}}</p>
+        <a href="/memos/edit/{{id}}" class="btn btn-outline-dark btn-block">Edit</a>
+    </div>
+{{else}}
+    <p>no memos</p>
+{{/each}}

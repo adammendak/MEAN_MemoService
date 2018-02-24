@@ -10,24 +10,21 @@ const app = express();
 
 //connect to mongoose, this is promise
 //Map global Promise- get rid of the warning
-global.toastr;
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/memosDev'//, {
-//    useMongoClient: true
-//}
-).then(() => {
+mongoose.connect('mongodb://localhost/memosDev')
+    .then(() => {
     console.log('Mongodb connected ...');
-}).catch(err => console.log(err));
+    }).catch(err => console.log(err));
 
 //Load Memo Model
 require('./models/memo');
 const Memo = mongoose.model('memo');
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // parse application/json
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 //Handlebars middleware
 app.engine('handlebars', hbs({defaultLayout: 'main'}));
@@ -39,9 +36,38 @@ app.get('/', (req,res)=> {
     res.render('index', {title: title});
 });
 
-//Add Idea Form
+//Get Memos
+app.get('/memos', (req,res) => {
+    Memo.find({})
+        .sort({date: 'desc'})
+        .then( memos => {
+            res.render('memos/index', {memos : memos});
+            });
+});
+
+//Add Memos Form
 app.get('/memos/add', (req,res) => {
     res.render('memos/add');
+});
+
+//Edit Memos
+app.get('/memos/edit/:id', (req,res) => {
+    let errors = [];
+    Memo.findOne({
+        _id: req.params.id
+    }).then( memo => {
+        console.log(`found memo ${memo.toString()}`);
+        res.render('memos/edit', {memo: memo});
+    }).catch(((err) => {
+        errors.push({
+            text: 'error saving to db' + err
+        });
+        res.render('memos/edit', {
+            errors: errors,
+            memo: memo
+        })
+    }));
+
 });
 
 //About Route
@@ -54,15 +80,51 @@ app.post('/memos/add', (req,res) => {
     let errors = [];
 
     if(!req.body.title) {
-        errors.push('please fill out title');
+        errors.push({
+            text : 'please fill out title'
+        });
     }
 
     if(!req.body.details) {
-        errors.push('please fill out details');
+        errors.push({
+            text : 'please fill out details'
+        });
     }
     console.log(req.body);
-    res.redirect('/');
+
+    if(errors.length> 0) {
+        res.render('memos/add', {
+            errors: errors,
+            title: req.body.title,
+            details: req.body.details
+        })
+    } else {
+        console.log("successfull posting of data");
+        const newMemo = {
+            title: req.body.title,
+            details: req.body.details
+        };
+
+        new Memo(newMemo).save()
+            .then( () => res.redirect('/memos'))
+            .catch((err) => {
+                errors.push({
+                    text: 'error saving to db' + err
+                });
+                res.render('memos/add', {
+                    errors: errors,
+                    title: req.body.title,
+                    details: req.body.details
+                })
+            });
+
+        console.log(newMemo.toString());
+    }
     // toastr.success('success');
+});
+
+app.put('/memos/:id', (req,res) => {
+
 });
 
 

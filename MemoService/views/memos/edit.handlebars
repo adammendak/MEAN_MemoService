@@ -6,15 +6,16 @@
 
 {{/each}}
 <div class="card card-body">
-    <h3 class="text-center">Memo</h3>
+    <h3 class="text-center">Edit Memo</h3>
     <form actoin="/memos" method="post">
+        <input type="hidden" name="id" id="id" value="{{memo._id}}">
         <div class="form-group">
             <label for="title">Title</label>
-            <input type="text" class="form-control" name="title" id="title" required>
+            <input type="text" class="form-control" name="title" id="title" value="{{memo.title}}" required>
         </div>
         <div class="form-group">
             <label for="details">Details</label>
-            <textarea class="form-control" name="details" id="details" required></textarea>
+            <textarea class="form-control" name="details" id="details" required> {{memo.details}} </textarea>
         </div>
         <button type="submit" class="btn btn-primary">Save</button>
     </form>
