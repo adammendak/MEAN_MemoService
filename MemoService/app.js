@@ -1,11 +1,12 @@
 const express = require('express');
 const jquery = require('jquery');
 const toastr = require('toastr');
+const bodyParser = require('body-parser');
 const hbs = require('express-handlebars');
 const mongoose = require('mongoose');
 
 const app = express();
-const port = 3000;
+
 
 //connect to mongoose, this is promise
 //Map global Promise- get rid of the warning
@@ -21,6 +22,12 @@ mongoose.connect('mongodb://localhost/memosDev'//, {
 //Load Memo Model
 require('./models/memo');
 const Memo = mongoose.model('memo');
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
 
 //Handlebars middleware
 app.engine('handlebars', hbs({defaultLayout: 'main'}));
@@ -43,10 +50,23 @@ app.get('/about', (req,res) => {
 });
 
 app.post('/memos/add', (req,res) => {
+
+    let errors = [];
+
+    if(!req.body.title) {
+        errors.push('please fill out title');
+    }
+
+    if(!req.body.details) {
+        errors.push('please fill out details');
+    }
+    console.log(req.body);
     res.redirect('/');
     // toastr.success('success');
 });
 
+
+const port = 3000;
 app.listen(3000, () => {
     console.log(`port listening on port ${port}`);
 });
