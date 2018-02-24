@@ -1,18 +1,20 @@
 const express = require('express');
-const jquery = require('jquery');
-const toastr = require('toastr');
 const bodyParser = require('body-parser');
 const hbs = require('express-handlebars');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
-
+const flash = require('connect-flash');
+const session = require('express-session');
+const properties = require('./config/properties');
 const app = express();
 
 
-//connect to mongoose, this is promise
+//DB config url string
+const DB = require('./config/database');
+
 //Map global Promise- get rid of the warning
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/memosDev')
+mongoose.connect(DB.mongoURI)
     .then(() => {
     console.log('Mongodb connected ...');
     }).catch(err => console.log(err));
@@ -33,6 +35,25 @@ app.use(methodOverride('_method'));
 //Handlebars middleware
 app.engine('handlebars', hbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
+
+//session middleware, secret should be more secret
+app.use(session({
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: true
+}));
+
+//flash middleware
+app.use(flash());
+
+//Global variables
+app.use(function (req, res, next) {
+    res.locals.success_msg = req.flash('success_msg');
+    res.locals.error_msg = req.flash('error_msg');
+    res.locals.fetch_msg = req.flash('fetch_msg');
+    res.locals.error = req.flash('error');
+    next();
+});
 
 //Index Route
 app.get('/', (req,res)=> {
@@ -109,8 +130,12 @@ app.post('/memos/add', (req,res) => {
             details: req.body.details
         };
 
-        new Memo(newMemo).save()
-            .then( () => res.redirect('/memos'))
+        new Memo(newMemo)
+            .save()
+            .then( () => {
+                req.flash('success_msg', 'Memo has been saved!');
+                res.redirect('/memos');
+            })
             .catch((err) => {
                 errors.push({
                     text: 'error saving to db' + err
@@ -131,9 +156,11 @@ app.put('/memos/:id', (req,res) => {
     Memo.findOne({_id: req.params.id}).then( memo => {
         memo.title = req.body.title;
         memo.details = req.body.details;
-        memo.save().then(memo =>{
-            console.log(`updated memo : ${memo.toString()}`);
-            res.redirect('/memos');
+        memo.save()
+            .then(memo => {
+                req.flash('success_msg', 'Memo has been updated');
+                console.log(`updated memo : ${memo.toString()}`);
+                res.redirect('/memos');
         });
         }).catch(err => {
         errors.push({
@@ -153,9 +180,10 @@ app.delete('/memos/:id', (req,res) => {
     Memo.findOne({_id: req.params.id}).then(memo => {
         Memo.remove({
             _id: req.params.id
-        }).then(
-            res.redirect('/memos')
-        );
+        }).then(() => {
+            req.flash('success_msg', 'Memo has been removed');
+            res.redirect('/memos');
+        });
     }).catch(err => {
         errors.push({
             text: 'error deleting ' + err
@@ -168,7 +196,7 @@ app.delete('/memos/:id', (req,res) => {
     });
 });
 
-const port = 3000;
+const port = process.env.port || 3000;
 app.listen(3000, () => {
     console.log(`port listening on port ${port}`);
 });
