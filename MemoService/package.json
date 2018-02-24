@@ -1,0 +1,16 @@
+{
+  "name": "memoservice",
+  "version": "1.0.0",
+  "description": "service for memos",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "adammendak",
+  "license": "ISC",
+  "repository": "https://github.com/adammendak/nodeProjects",
+  "dependencies": {
+    "express": "^4.16.2",
+    "nodemon": "^1.15.1"
+  }
+}
