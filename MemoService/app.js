@@ -18,7 +18,7 @@ app.set('view engine', 'handlebars');
 //Index Route
 app.get("/", (req,res)=> {
     // res.send("works");
-    const title = 'Index Page';
+    const title = 'Welcome to Memo service';
     res.render('index', {title: title});
 });
 
