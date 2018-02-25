@@ -1,5 +1,10 @@
 <div class="jumbotron text-center">
     <h1 class="display-3">{{title}} </h1>
-    <p class="lead">Put down memos:</p>
-    <a href="/memos/add" class="btn btn-success btn-lg">Add new Memo</a>
+    {{#if user}}
+        <p class="lead">Put down memos:</p>
+        <a href="/memos/add" class="btn btn-success btn-lg">Add new Memo</a>
+    {{else}}
+        <p class="lead">Login to see Your memos</p>
+        <a href="/user/login" class="btn btn-primary btn-lg">Login</a>
+    {{/if}}
 </div>

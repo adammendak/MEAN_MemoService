@@ -6,10 +6,12 @@ const methodOverride = require('method-override');
 const flash = require('connect-flash');
 const session = require('express-session');
 const path = require('path');
-
+const passport = require('passport');
 
 const app = express();
 
+//Passport config
+require('./config/passport')(passport);
 //DB config url string
 const DB = require('./config/database');
 
@@ -43,6 +45,12 @@ app.use(session({
     saveUninitialized: true
 }));
 
+
+//Passport initializer
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 //flash middleware
 app.use(flash());
 
@@ -52,6 +60,7 @@ app.use(function (req, res, next) {
     res.locals.error_msg = req.flash('error_msg');
     res.locals.fetch_msg = req.flash('fetch_msg');
     res.locals.error = req.flash('error');
+    res.locals.user = req.user || null;
     next();
 });
 

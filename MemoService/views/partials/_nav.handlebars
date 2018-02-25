@@ -12,16 +12,22 @@
                     </li>
                 </ul>
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a href="/user/login" class="nav-link">Login</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink">Memos</a>
-                        <div class="dropdown-menu">
-                            <a href="/memos" class="dropdown-item">Memos</a>
-                            <a href="/memos/add" class="dropdown-item">Add Memo</a>
-                        </div>
-                    </li>
+                    {{#if user}}
+                        <li class="nav-item">
+                            <a href="/user/logout" class="nav-link">Logout</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink">Memos</a>
+                            <div class="dropdown-menu">
+                                <a href="/memos" class="dropdown-item">Memos</a>
+                                <a href="/memos/add" class="dropdown-item">Add Memo</a>
+                            </div>
+                        </li>
+                    {{else}}
+                        <li class="nav-item">
+                            <a href="/user/login" class="nav-link">Login</a>
+                        </li>
+                    {{/if}}
                 </ul> 
             </div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,10 +37,14 @@
         <div class="collapse mb-2" style="margin-top: -10px;" id="navbarToggleExternalContent">
             <div class="bg-light">
                 <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-                <a href="/user/login" class="nav-link">Login</a>
-                <a href="/memos" class="nav-link">Memos</a>
-                <a href="/memos/add" class="nav-link">Add Memo</a>
                 <a class="nav-link" href="/About">About</a>
+                {{#if user}}
+                    <a href="/user/logout" class="nav-link">Logout</a>
+                    <a href="/memos" class="nav-link">Memos</a>
+                    <a href="/memos/add" class="nav-link">Add Memo</a>
+                {{else}}
+                    <a href="/user/login" class="nav-link">Login</a>
+                {{/if}}
             </div>
         </div>
         <span class="mb-2"></span>
