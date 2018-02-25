@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const flash = require('connect-flash');
 const session = require('express-session');
+const path = require('path');
 
 
 const app = express();
@@ -21,6 +22,9 @@ mongoose.connect(DB.mongoURI)
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
+
+//Static folder
+app.use(express.static(path.join(__dirname, 'public')));
 
 // parse application/json
 app.use(bodyParser.json());
@@ -69,6 +73,7 @@ app.use('/memos', memosRoutes);
 app.use('/user', userRoutes);
 
 const port = process.env.port || 3000;
+
 app.listen(3000, () => {
     console.log(`port listening on port ${port}`);
 });
