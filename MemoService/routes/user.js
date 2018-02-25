@@ -67,27 +67,20 @@ router.post('/register', (req,res) => {
                                 });
                             }
                             newUser.password = hash;
+                            newUser.save()
+                                .then(user => {
+                                    req.flash('successMsg', 'You re now registered, try to login');
+                                    res.redirect('/user/login');
+                                    return;
+                                }).catch(err => {
+                                errors.push({
+                                    text: err
+                                });
+                                res.render('user/register', {errors: errors});
+                                return;
+                            });
                         })
                     });
-
-                    console.log(`password before bcrypt ${newUser.password}`);
-
-                    if (errors.length > 0) {
-                        res.render('user/register', {errors: errors})
-                    } else {
-                        newUser.save()
-                            .then(user => {
-                                req.flash('successMsg', 'You re now registered, try to login');
-                                res.redirect('/user/login');
-                                return;
-                            }).catch(err => {
-                            errors.push({
-                                text: err
-                            });
-                            res.render('user/register', {errors: errors});
-                            return;
-                        });
-                    }
                 }
             })
     }
