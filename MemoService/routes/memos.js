@@ -1,15 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
+const {ensureAuthenticated} = require('../helpers/auth');
+
 
 //Load Memo Model
 require('../models/Memo');
 const Memo = mongoose.model('memo');
 
-
 //Get Memos
-router.get('/', (req,res) => {
-    Memo.find({})
+router.get('/', ensureAuthenticated, (req,res) => {
+    Memo.find({user: req.user.id})
         .sort({date: 'desc'})
         .then( memos => {
             res.render('memos/index', {memos : memos});
@@ -17,7 +18,7 @@ router.get('/', (req,res) => {
 });
 
 //Edit Memos
-router.get('/edit/:id', (req,res) => {
+router.get('/edit/:id', ensureAuthenticated, (req,res) => {
     let errors = [];
     Memo.findOne({
         _id: req.params.id
@@ -37,12 +38,12 @@ router.get('/edit/:id', (req,res) => {
 
 
 //Add Memos Form
-router.get('/add', (req,res) => {
+router.get('/add', ensureAuthenticated, (req,res) => {
     res.render('memos/add');
 });
 
 
-router.post('/add', (req,res) => {
+router.post('/add', ensureAuthenticated, (req,res) => {
 
     let errors = [];
 
@@ -69,7 +70,8 @@ router.post('/add', (req,res) => {
         console.log("successfull posting of data");
         const newMemo = {
             title: req.body.title,
-            details: req.body.details
+            details: req.body.details,
+            user: req.user.id
         };
 
         new Memo(newMemo)
@@ -93,7 +95,7 @@ router.post('/add', (req,res) => {
     }
 });
 
-router.put('/:id', (req,res) => {
+router.put('/:id', ensureAuthenticated, (req,res) => {
     Memo.findOne({_id: req.params.id}).then( memo => {
         memo.title = req.body.title;
         memo.details = req.body.details;
@@ -116,7 +118,7 @@ router.put('/:id', (req,res) => {
 });
 
 //Delete Memo
-router.delete('/:id', (req,res) => {
+router.delete('/:id', ensureAuthenticated, (req,res) => {
     let errors = [];
     Memo.findOne({_id: req.params.id}).then(memo => {
         Memo.remove({
