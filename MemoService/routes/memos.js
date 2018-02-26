@@ -1,12 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
 const {ensureAuthenticated} = require('../helpers/auth');
 
-
 //Load Memo Model
-require('../models/Memo');
-const Memo = mongoose.model('memo');
+const Memo = require('../models/Memo');
 
 //Get Memos
 router.get('/', ensureAuthenticated, (req,res) => {
