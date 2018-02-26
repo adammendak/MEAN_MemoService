@@ -3,7 +3,7 @@
     <div class="card card-body mb-2">
         <h4>{{title}}</h4>
         <p>{{details}}</p>
-        <a href="/memos/edit/{{id}}" class="btn btn-outline-dark btn-block mb-1">Edit</a>
+        <a href="/memos/{{id}}" class="btn btn-outline-dark btn-block mb-1">Edit</a>
         <form action="/memos/{{id}}?_method=DELETE" method="post">
             <input type="hidden" name="_method" value="DELETE">
             <button type="submit" class="btn btn-outline-danger btn-block">Delete memo</button>

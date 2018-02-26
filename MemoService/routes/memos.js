@@ -5,42 +5,25 @@ const {ensureAuthenticated} = require('../helpers/auth');
 //Load Memo Model
 const Memo = require('../models/Memo');
 
-//Get Memos
-router.get('/', ensureAuthenticated, (req,res) => {
+//get Add Memos Form
+router.get('/add', ensureAuthenticated, (req,res) => {
+    res.render('memos/add');
+});
+
+router.route('/')
+    .all(ensureAuthenticated, (req,res,next) => {
+        next();
+    })
+    //get All Memos
+    .get((req,res) => {
     Memo.find({user: req.user.id})
         .sort({date: 'desc'})
         .then( memos => {
             res.render('memos/index', {memos : memos});
         });
-});
-
-//Edit Memos
-router.get('/edit/:id', ensureAuthenticated, (req,res) => {
-    let errors = [];
-    Memo.findOne({
-        _id: req.params.id
-    }).then( memo => {
-        console.log(`found memo ${memo.toString()}`);
-        res.render('memos/edit', {memo: memo});
-    }).catch(((err) => {
-        errors.push({
-            text: 'error saving to db' + err
-        });
-        res.render('memos/edit', {
-            errors: errors,
-            memo: memo
-        })
-    }));
-});
-
-
-//Add Memos Form
-router.get('/add', ensureAuthenticated, (req,res) => {
-    res.render('memos/add');
-});
-
-
-router.post('/add', ensureAuthenticated, (req,res) => {
+    })
+    //Add New Memo
+    .post((req,res) => {
 
     let errors = [];
 
@@ -92,48 +75,67 @@ router.post('/add', ensureAuthenticated, (req,res) => {
     }
 });
 
-router.put('/:id', ensureAuthenticated, (req,res) => {
-    Memo.findOne({_id: req.params.id}).then( memo => {
-        memo.title = req.body.title;
-        memo.details = req.body.details;
-        memo.save()
-            .then(memo => {
-                req.flash('success_msg', 'Memo has been updated');
-                console.log(`updated memo : ${memo.toString()}`);
+router.route('/:id')
+    .all(ensureAuthenticated, (req,res,next) =>{
+        next();
+    })
+    .get((req,res) => {
+        let errors = [];
+        Memo.findOne({
+            _id: req.params.id
+        }).then( memo => {
+            console.log(`found memo ${memo.toString()}`);
+            res.render('memos/edit', {memo: memo});
+        }).catch(((err) => {
+            errors.push({
+                text: 'error saving to db' + err
+            });
+            res.render('memos/edit', {
+                errors: errors,
+                memo: memo
+            })
+        }));
+    })
+    .put((req,res) => {
+        Memo.findOne({_id: req.params.id}).then( memo => {
+            memo.title = req.body.title;
+            memo.details = req.body.details;
+            memo.save()
+                .then(memo => {
+                    req.flash('success_msg', 'Memo has been updated');
+                    console.log(`updated memo : ${memo.toString()}`);
+                    res.redirect('/memos');
+                });
+        }).catch(err => {
+            errors.push({
+                text: 'error saving to db' + err
+            });
+            res.redirect(`/memos/edit/${req.params.id}`, {
+                errors: errors,
+                title: req.body.title,
+                details: req.body.details
+            })
+        });
+    })
+    .delete((req,res) => {
+        let errors = [];
+        Memo.findOne({_id: req.params.id}).then(memo => {
+            Memo.remove({
+                _id: req.params.id
+            }).then(() => {
+                req.flash('success_msg', 'Memo has been removed');
                 res.redirect('/memos');
             });
-    }).catch(err => {
-        errors.push({
-            text: 'error saving to db' + err
+        }).catch(err => {
+            errors.push({
+                text: 'error deleting ' + err
+            });
+            res.redirect(`/memos/edit/${req.params.id}`, {
+                errors: errors,
+                title: req.body.title,
+                details: req.body.details
+            })
         });
-        res.redirect(`/memos/edit/${req.params.id}`, {
-            errors: errors,
-            title: req.body.title,
-            details: req.body.details
-        })
     });
-});
-
-//Delete Memo
-router.delete('/:id', ensureAuthenticated, (req,res) => {
-    let errors = [];
-    Memo.findOne({_id: req.params.id}).then(memo => {
-        Memo.remove({
-            _id: req.params.id
-        }).then(() => {
-            req.flash('success_msg', 'Memo has been removed');
-            res.redirect('/memos');
-        });
-    }).catch(err => {
-        errors.push({
-            text: 'error deleting ' + err
-        });
-        res.redirect(`/memos/edit/${req.params.id}`, {
-            errors: errors,
-            title: req.body.title,
-            details: req.body.details
-        })
-    });
-});
 
 module.exports = router;
