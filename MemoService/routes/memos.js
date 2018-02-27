@@ -3,6 +3,11 @@ const router = express.Router();
 const {ensureAuthenticated} = require('../helpers/auth');
 const memoController = require('../controllers/memoController');
 
+//get Add Memos Form
+router.get('/add', ensureAuthenticated, (req,res) => {
+    res.render('memos/add');
+});
+
 router.route('/')
     .all(ensureAuthenticated, (req,res,next) => {
         next();
@@ -17,10 +22,5 @@ router.route('/:id')
     .get(memoController.get_memo)
     .put(memoController.put_memo)
     .delete(memoController.delete_memo)
-
-//get Add Memos Form
-router.get('/add', ensureAuthenticated, (req,res) => {
-    res.render('memos/add');
-});
 
 module.exports = router;

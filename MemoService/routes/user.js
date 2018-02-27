@@ -1,9 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const bcrypt = require('bcryptjs');
 const userController = require('../controllers/userController');
-
-const User = require('../models/User');
 
 router.route('/login')
     .get(userController.get_login_form)
