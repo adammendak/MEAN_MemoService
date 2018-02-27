@@ -3,7 +3,6 @@ const router = express.Router();
 const {ensureAuthenticated} = require('../helpers/auth');
 const memoController = require('../controllers/memoController');
 
-//get Add Memos Form
 router.get('/add', ensureAuthenticated, (req,res) => {
     res.render('memos/add');
 });
