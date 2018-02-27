@@ -7,6 +7,7 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const path = require('path');
 const passport = require('passport');
+const morgan = require('morgan');
 
 const app = express();
 
@@ -31,6 +32,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 // parse application/json
 app.use(bodyParser.json());
 
+//logger
+app.use(morgan('tiny'));
+
 //override post to put
 app.use(methodOverride('_method'));
 
@@ -45,11 +49,9 @@ app.use(session({
     saveUninitialized: true
 }));
 
-
 //Passport initializer
 app.use(passport.initialize());
 app.use(passport.session());
-
 
 //flash middleware
 app.use(flash());
@@ -64,18 +66,16 @@ app.use(function (req, res, next) {
     next();
 });
 
-//Index Route
+//Routes
 app.get('/', (req,res)=> {
     const title = 'Welcome to Memo service';
     res.render('index', {title: title});
 });
 
-//About Route
 app.get('/about', (req,res) => {
     res.render('about');
 });
 
-//Load routes
 const memosRoutes = require('./routes/memos');
 const userRoutes = require('./routes/user');
 app.use('/memos', memosRoutes);
