@@ -1,6 +1,4 @@
 const Memo = require('../models/Memo');
-const mongoose = require('mongoose');
-
 
 exports.get_all_memos = function (req, res) {
         Memo.find({user: req.user.id})
@@ -104,7 +102,7 @@ exports.put_memo = function(req,res) {
 
 exports.delete_memo = function(req,res) {
     let errors = [];
-    Memo.findOne({_id: req.params.id}).then(memo => {
+    Memo.findOne({_id: req.params.id}).then(() => {
         Memo.remove({
             _id: req.params.id
         }).then(() => {
