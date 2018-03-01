@@ -10,7 +10,6 @@ const passport = require('passport');
 const morgan = require('morgan');
 
 const app = express();
-
 //Passport config
 require('./config/passport')(passport);
 //DB config url string
@@ -28,7 +27,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 //Static folder
 app.use(express.static(path.join(__dirname, 'public')));
-
 // parse application/json
 app.use(bodyParser.json());
 

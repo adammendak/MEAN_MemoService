@@ -1,4 +1,5 @@
-const Memo = require('../models/Memo');
+const MODEL_PATH = '../models/';
+const Memo = require(MODEL_PATH + 'Memo');
 
 exports.get_all_memos = function (req, res) {
         Memo.find({user: req.user.id})

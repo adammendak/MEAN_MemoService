@@ -20,6 +20,6 @@ router.route('/:id')
     })
     .get(memoController.get_memo)
     .put(memoController.put_memo)
-    .delete(memoController.delete_memo)
+    .delete(memoController.delete_memo);
 
 module.exports = router;

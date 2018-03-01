@@ -1,4 +1,6 @@
-const User = require('../models/User');
+const MODEL_PATH = '../models/';
+const User = require(MODEL_PATH + 'User');
+// const User = require('../models/User');
 const passport = require('passport');
 const bcrypt = require('bcryptjs');
 
@@ -68,16 +70,14 @@ exports.register_new_user = (req,res) => {
                             }
                             newUser.password = hash;
                             newUser.save()
-                                .then(user => {
+                                .then(() => {
                                     req.flash('success_msg', 'You re now registered, try to login');
                                     res.redirect('/user/login');
-                                    return;
                                 }).catch(err => {
                                 errors.push({
                                     text: err
                                 });
                                 res.render('user/register', {errors: errors});
-                                return;
                             });
                         })
                     });
