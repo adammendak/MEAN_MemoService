@@ -26,7 +26,9 @@ mongoose.connect(DB.mongoURI)
 app.use(bodyParser.urlencoded({ extended: false }));
 
 //Static folder
-app.use(express.static(path.join(__dirname, 'public')));
+//uncoment first one if hendlebars are to be used
+// app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'static')));
 // parse application/json
 app.use(bodyParser.json());
 
@@ -37,8 +39,9 @@ app.use(morgan('tiny'));
 app.use(methodOverride('_method'));
 
 //Handlebars middleware
-app.engine('handlebars', hbs({defaultLayout: 'main'}));
-app.set('view engine', 'handlebars');
+//uncomment for handlebars setup, not angular
+// app.engine('handlebars', hbs({defaultLayout: 'main'}));
+// app.set('view engine', 'handlebars');
 
 //session middleware, secret should be more secret
 app.use(session({
@@ -65,9 +68,11 @@ app.use(function (req, res, next) {
 });
 
 //Routes
+//uncoment first res.render to use handlebars, otherwise this is setup for angular
 app.get('/', (req,res)=> {
     const title = 'Welcome to Memo service';
-    res.render('index', {title: title});
+    // res.render('index', {title: title});
+    res.sendFile('index.html');
 });
 
 app.get('/about', (req,res) => {
