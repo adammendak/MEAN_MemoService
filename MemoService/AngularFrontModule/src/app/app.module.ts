@@ -6,6 +6,10 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { AboutComponent } from './about/about.component';
 import { MemosComponent } from './memos/memos.component';
+import {FormsModule} from "@angular/forms";
+import {RouterModule} from "@angular/router";
+import {routes} from "./routes";
+import { WelcomeComponent } from './welcome/welcome.component';
 
 
 @NgModule({
@@ -13,10 +17,13 @@ import { MemosComponent } from './memos/memos.component';
     AppComponent,
     NavbarComponent,
     AboutComponent,
-    MemosComponent
+    MemosComponent,
+    WelcomeComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    FormsModule,
+    RouterModule.forRoot(routes)
   ],
   providers: [],
   bootstrap: [AppComponent]
