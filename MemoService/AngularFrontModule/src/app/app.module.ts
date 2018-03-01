@@ -6,11 +6,15 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { AboutComponent } from './about/about.component';
 import { MemosComponent } from './memos/memos.component';
-import {FormsModule} from "@angular/forms";
-import {RouterModule} from "@angular/router";
-import {routes} from "./routes";
+import { FormsModule } from "@angular/forms";
+import { RouterModule } from "@angular/router";
+import { routes } from "./routes";
 import { WelcomeComponent } from './welcome/welcome.component';
-
+import { AddMemosComponent } from './memos/add-memos/add-memos.component';
+import { ToastrModule } from "ngx-toastr";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {HttpClientModule} from "@angular/common/http";
+import {UserModule} from "./user/user.module";
 
 @NgModule({
   declarations: [
@@ -18,14 +22,23 @@ import { WelcomeComponent } from './welcome/welcome.component';
     NavbarComponent,
     AboutComponent,
     MemosComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    AddMemosComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
     FormsModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    ToastrModule.forRoot({
+      preventDuplicates: true
+    }),
+    UserModule
   ],
-  providers: [],
+  providers: [
+
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

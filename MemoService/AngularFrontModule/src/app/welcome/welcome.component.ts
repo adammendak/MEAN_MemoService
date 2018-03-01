@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
+// import { Toastr } from "../common/toastr-service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-welcome',
@@ -9,9 +11,11 @@ export class WelcomeComponent implements OnInit {
 
   title: String = "Memo Service";
 
-  constructor() { }
+  // constructor(@Inject(TOASTR_TOKEN) private _toastr: Toastr) { }
+  constructor( private _toastr: ToastrService) { }
 
   ngOnInit() {
+    // this._toastr.info("test message toastr");
   }
 
 }
