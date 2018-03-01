@@ -15,6 +15,7 @@ import { ToastrModule } from "ngx-toastr";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {HttpClientModule} from "@angular/common/http";
 import {UserModule} from "./user/user.module";
+import {userRoutes} from "./user/userRoutes";
 
 @NgModule({
   declarations: [
@@ -30,11 +31,11 @@ import {UserModule} from "./user/user.module";
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
+    UserModule,
     RouterModule.forRoot(routes),
     ToastrModule.forRoot({
       preventDuplicates: true
-    }),
-    UserModule
+    })
   ],
   providers: [
 

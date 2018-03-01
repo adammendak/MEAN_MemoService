@@ -44,7 +44,7 @@
           <a [routerLink]="['/memos']" class="nav-link">Memos</a>
           <a [routerLink]="['/memos/add']" class="nav-link">Add Memo</a>
         </div>
-        <div *ngIf="user">
+        <div *ngIf="!user">
           <a [routerLink]="['/user/login']" class="nav-link">Login</a>
         </div>
       </div>
