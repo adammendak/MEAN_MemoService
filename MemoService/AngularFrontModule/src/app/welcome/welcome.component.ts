@@ -9,6 +9,8 @@ import {ToastrService} from "ngx-toastr";
 })
 export class WelcomeComponent implements OnInit {
 
+  user = null;
+
   title: String = "Memo Service";
 
   // constructor(@Inject(TOASTR_TOKEN) private _toastr: Toastr) { }
