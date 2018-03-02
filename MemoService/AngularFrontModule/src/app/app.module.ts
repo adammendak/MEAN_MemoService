@@ -16,6 +16,8 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {HttpClientModule} from "@angular/common/http";
 import {UserModule} from "./user/user.module";
 import {HttpModule} from "@angular/http";
+import {UserService} from "./user/user.service";
+import {MemosService} from "./memos/memos.service";
 
 @NgModule({
   declarations: [
@@ -29,7 +31,6 @@ import {HttpModule} from "@angular/http";
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    HttpModule,
     HttpClientModule,
     FormsModule,
     UserModule,
@@ -39,7 +40,8 @@ import {HttpModule} from "@angular/http";
     })
   ],
   providers: [
-
+    UserService,
+    MemosService
   ],
   bootstrap: [AppComponent]
 })

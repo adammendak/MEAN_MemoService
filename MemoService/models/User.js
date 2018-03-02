@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
+const sign = require("jsonwebtoken").sign;
 const Schema = mongoose.Schema;
+const JWTSecret = require('../config/passport').JWTSecret;
 
 const UserSchema = new Schema({
     username: {
@@ -8,6 +10,7 @@ const UserSchema = new Schema({
     },
     email: {
         type: String,
+        unique: true,
         required: true
     },
     password: {
@@ -18,7 +21,6 @@ const UserSchema = new Schema({
         type: Date,
         required: true,
         default: Date.now
-
     }
 });
 

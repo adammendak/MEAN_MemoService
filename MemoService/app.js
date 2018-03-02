@@ -8,10 +8,12 @@ const session = require('express-session');
 const path = require('path');
 const passport = require('passport');
 const morgan = require('morgan');
+const cors = require('cors');
+const jwt = require('jsonwebtoken');
 
 const app = express();
 //Passport config
-require('./config/passport')(passport);
+require('./config/passport').function(passport);
 //DB config url string
 const DB = require('./config/database');
 
@@ -24,6 +26,9 @@ mongoose.connect(DB.mongoURI)
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
+
+//cors for development purposes
+app.use(cors());
 
 //Static folder
 //uncoment first one if hendlebars are to be used
@@ -81,8 +86,19 @@ app.get('/about', (req,res) => {
 
 const memosRoutes = require('./routes/memos');
 const userRoutes = require('./routes/user');
-app.use('/memos', memosRoutes);
-app.use('/user', userRoutes);
+app.use('/api/memos', memosRoutes);
+// app.use('/memos', memosRoutes);
+// app.use('/user', userRoutes);
+app.use('/api/user', userRoutes);
+
+app.use(function (err, req, res, next) {
+    if (err.name === 'UnauthorizedError') {
+        res.status(401);
+        res.json({"message" : err.name + ": " + err.message});
+    } else {
+        res.json({"message" : err.name + ": " + err.message});
+    }
+});
 
 const port = process.env.port || 3000;
 

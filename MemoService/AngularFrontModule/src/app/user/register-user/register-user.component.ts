@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {IUser, User} from "../user";
+import {NgForm} from "@angular/forms";
+import {UserService} from "../user.service";
 
 @Component({
   selector: 'app-register-user',
@@ -7,9 +10,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegisterUserComponent implements OnInit {
 
-  constructor() { }
+  user: IUser = new User();
+
+  password2;
+
+  constructor(private _userService: UserService) { }
 
   ngOnInit() {
+  }
+
+  //add validation if passwords do not match
+
+  register(registerForm: NgForm) {
+    console.log(this.user);
+    this._userService.registerUser(this.user);
   }
 
 }

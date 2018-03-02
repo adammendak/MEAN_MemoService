@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
 
+
 router.route('/login')
     .get(userController.get_login_form)
     .post(userController.log_user);
