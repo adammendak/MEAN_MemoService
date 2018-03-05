@@ -19,16 +19,19 @@ exports.get_login_form = function(req,res) {
 //         failureFlash: true
 //     })(req,res,next)};
 
-exports.log_user = (req,res,next) => {
+exports.log_user = (req,res, next) => {
     console.log("inside passport login function");
 
+    // const passport = require('passport').Passport;
     passport.authenticate('local', (req,res,info) => {
 
         //if passport throws any error
         if(err) {
+            console.log("error in passport" + err.message);
             res.status(404).json(err);
         }
 
+        console.log("not in error passport function");
         //if user is found or else if no user found
         if(user){
             let token = jwt.sign(user.toJSON(), JWTSecret, {
@@ -42,21 +45,22 @@ exports.log_user = (req,res,next) => {
             res.status(401).json(info);
         }
 
-    })(req,res,next)};
+    })(req,res,next)
+};
 
 exports.logout = (req,res) => {
     req.logout();
     req.flash('success_msg', 'You are logged out');
     res.redirect('/');
 };
-
-module.exports.register_new_user = (req, res) => {
-    console.log("Registering user: " + req.body.email);
-    res.status(200);
-    res.json({
-        "message" : "User registered: " + req.body.email
-    });
-};
+//
+// module.exports.register_new_user = (req, res) => {
+//     console.log("Registering user: " + req.body.email);
+//     res.status(200);
+//     res.json({
+//         "message" : "User registered: " + req.body.email
+//     });
+// };
 
 exports.register_new_user = (req,res) => {
     console.log(req.body);

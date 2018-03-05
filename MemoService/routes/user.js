@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
-
+const passport = require('passport').Passport;
 
 router.route('/login')
     .get(userController.get_login_form)

@@ -13,7 +13,7 @@ const jwt = require('jsonwebtoken');
 
 const app = express();
 //Passport config
-require('./config/passport').function(passport);
+const passportConfig = require('./config/passport').function(passport);
 //DB config url string
 const DB = require('./config/database');
 
@@ -83,6 +83,7 @@ app.get('/', (req,res)=> {
 app.get('/about', (req,res) => {
     res.render('about');
 });
+
 
 const memosRoutes = require('./routes/memos');
 const userRoutes = require('./routes/user');

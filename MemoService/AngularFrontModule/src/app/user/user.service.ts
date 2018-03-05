@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {IUser} from "./user";
+import {Router} from "@angular/router";
 
 @Injectable()
 export class UserService {
 
-  constructor(private _http: HttpClient) { }
+  constructor(private _http: HttpClient, private router: Router) { }
 
   baseUrl = "http://localhost:3000/api";
 
@@ -13,10 +14,13 @@ export class UserService {
     console.log("inside service");
     this._http.post(this.baseUrl + "/user/login", user)
       .subscribe(
-        res => console.log(res),
-        err => console.log(err)
-      )
-  };
+        res => {
+          console.log(res);
+          this.router.navigate(['/welcome']);
+
+        },
+            err => console.log(err)
+      )};
 
   registerUser(user: IUser) {
     console.log("inside register function");
