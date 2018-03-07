@@ -1,6 +1,6 @@
 const MODEL_PATH = '../models/';
 const User = require(MODEL_PATH + 'User');
-const passport = require('passport').Passport;
+const passport = require('passport');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -19,17 +19,17 @@ exports.get_login_form = function(req,res) {
 //         failureFlash: true
 //     })(req,res,next)};
 
-exports.log_user = (req,res, next) => {
+exports.log_user = function(req,res, next) {
     console.log("inside passport login function");
 
     // const passport = require('passport').Passport;
-    passport.authenticate('local', (req,res,info) => {
+    passport.authorize('local', (req,res,info) => {
 
         //if passport throws any error
-        if(err) {
-            console.log("error in passport" + err.message);
-            res.status(404).json(err);
-        }
+        // if(err) {
+        //     console.log("error in passport" + err.message);
+        //     res.status(404).json(err);
+        // }
 
         console.log("not in error passport function");
         //if user is found or else if no user found

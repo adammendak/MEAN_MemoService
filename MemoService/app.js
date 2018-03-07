@@ -12,8 +12,9 @@ const cors = require('cors');
 const jwt = require('jsonwebtoken');
 
 const app = express();
-//Passport config
-const passportConfig = require('./config/passport').function(passport);
+
+const User = require('./models/User').User;
+
 //DB config url string
 const DB = require('./config/database');
 
@@ -30,6 +31,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //cors for development purposes
 app.use(cors());
 
+//passport authenticate
+// app.use(function (req, res, next) {
+//    require('./config/passport');
+//    next()
+// });
+
 //Static folder
 //uncoment first one if hendlebars are to be used
 // app.use(express.static(path.join(__dirname, 'public')));
@@ -38,7 +45,7 @@ app.use(express.static(path.join(__dirname, 'static')));
 app.use(bodyParser.json());
 
 //logger
-app.use(morgan('tiny'));
+app.use(morgan('dev'));
 
 //override post to put
 app.use(methodOverride('_method'));
@@ -58,6 +65,8 @@ app.use(session({
 //Passport initializer
 app.use(passport.initialize());
 app.use(passport.session());
+//Passport config
+require('./config/passport').function(passport);
 
 //flash middleware
 app.use(flash());
