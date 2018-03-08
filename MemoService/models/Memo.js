@@ -16,8 +16,8 @@ const MemoSchema = new Schema({
         default: Date.now
     },
     user: {
-        type: String,
-        required: true
+        type: Schema.Types.ObjectId,
+        ref: 'User'
     }
 });
 

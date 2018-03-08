@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
-// const {ensureAuthenticated} = require('../helpers/auth');
 const memoController = require('../controllers/memoController');
-const JWTSecret = require('../config/passport').JWTSecret;
+const JWTSecret = require('../config/database').JWTSecret;
 
 //for JWT authentication
 // const jwt = require('express-jwt');

@@ -1,28 +1,19 @@
 const MODEL_PATH = '../models/';
 const User = require(MODEL_PATH + 'User');
-const passport = require('passport');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const JWTSecret = require('../config/passport').JWTSecret;
+const JWTSecret = require('../config/database').JWTSecret;
 
 
 exports.get_login_form = function(req,res) {
     res.render('user/login');
 };
 
-// exports.log_user = (req,res,next) => {
-//     console.log("inside passport function");
-//     passport.authenticate('local', {
-//         successRedirect: '/memos',
-//         failureRedirect: '/user/login',
-//         failureFlash: true
-//     })(req,res,next)};
-
 exports.log_user = (req,res, next) => {
     console.log("inside passport login function");
 
-    User.findById({_id: req.body._id})
+    User.findOne({username : req.body.username})
         .then( user => {
                 if (!user) {
                     return res.status(401).json({
@@ -40,7 +31,7 @@ exports.log_user = (req,res, next) => {
                 const token = jwt.sign({user: user}, JWTSecret, {expiresIn: 1440});
                 return res.status(200).json({
                     message: 'successfull login',
-                    token: token,
+                    token: token
                 })
             }
         )
@@ -50,31 +41,6 @@ exports.log_user = (req,res, next) => {
                 "error": err.message
         })
     }))
-
-    // const passport = require('passport').Passport;
-    // passport.authorize('local', (req,res,info) => {
-
-        //if passport throws any error
-        // if(err) {
-        //     console.log("error in passport" + err.message);
-        //     res.status(404).json(err);
-        // }
-
-    //     console.log("not in error passport function");
-    //     //if user is found or else if no user found
-    //     if(user){
-    //         let token = jwt.sign(user.toJSON(), JWTSecret, {
-    //             expiresIn: 1440 // expires in 1 hour
-    //         });
-    //         res.status(200);
-    //         res.json({
-    //             "token" : token
-    //         })
-    //     } else {
-    //         res.status(401).json(info);
-    //     }
-    //
-    // })(req,res,next)
 };
 
 exports.logout = (req,res) => {
@@ -82,14 +48,6 @@ exports.logout = (req,res) => {
     req.flash('success_msg', 'You are logged out');
     res.redirect('/');
 };
-//
-// module.exports.register_new_user = (req, res) => {
-//     console.log("Registering user: " + req.body.email);
-//     res.status(200);
-//     res.json({
-//         "message" : "User registered: " + req.body.email
-//     });
-// };
 
 exports.register_new_user = (req,res) => {
     console.log(req.body);
@@ -145,6 +103,7 @@ exports.register_new_user = (req,res) => {
                                     });
                                     res.status(201);
                                     res.json({
+                                        "message" : "user created successfully",
                                         "token": token
                                     })
                                     // req.flash('success_msg', 'You re now registered, try to login');
