@@ -1,26 +1,26 @@
 const express = require('express');
 const router = express.Router();
-const {ensureAuthenticated} = require('../helpers/auth');
+// const {ensureAuthenticated} = require('../helpers/auth');
 const memoController = require('../controllers/memoController');
 const JWTSecret = require('../config/passport').JWTSecret;
 
 //for JWT authentication
-const jwt = require('express-jwt');
-const auth = jwt({
-    secret: `${JWTSecret}`,
-    userProperty: 'payload'
-});
+// const jwt = require('express-jwt');
+// const auth = jwt({
+//     secret: `${JWTSecret}`,
+//     userProperty: 'payload'
+// });
 
 // router.get('/add', ensureAuthenticated, (req,res) => {
 //     res.render('memos/add');
 // });
-router.get('/add', auth, (req,res) => {
+router.get('/add', (req,res) => {
     res.render('memos/add');
 });
 
 
 router.route('/')
-    .all(auth, (req,res,next) => {
+    .all((req,res,next) => {
     // .all(ensureAuthenticated, (req,res,next) => {
         next();
     })
@@ -28,7 +28,7 @@ router.route('/')
     .post(memoController.add_memo);
 
 router.route('/:id')
-    .all(auth, (req,res,next) =>{
+    .all((req,res,next) =>{
     // .all(ensureAuthenticated, (req,res,next) =>{
         next();
     })

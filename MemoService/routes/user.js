@@ -5,7 +5,7 @@ const passport = require('passport').Passport;
 
 router.route('/login')
     .get(userController.get_login_form)
-    .post(userController.log_user(passport));
+    .post(userController.log_user);
 
 router.get('/logout', userController.logout);
 

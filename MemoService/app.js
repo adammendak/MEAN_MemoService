@@ -2,18 +2,17 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const hbs = require('express-handlebars');
 const mongoose = require('mongoose');
-const methodOverride = require('method-override');
+// const methodOverride = require('method-override');
 const flash = require('connect-flash');
-const session = require('express-session');
+// const session = require('express-session');
 const path = require('path');
-const passport = require('passport');
+// const passport = require('passport');
 const morgan = require('morgan');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
-
 const app = express();
 
-const User = require('./models/User').User;
+// const User = require('./models/User').User;
 
 //DB config url string
 const DB = require('./config/database');
@@ -31,12 +30,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //cors for development purposes
 app.use(cors());
 
-//passport authenticate
-// app.use(function (req, res, next) {
-//    require('./config/passport');
-//    next()
-// });
-
 //Static folder
 //uncoment first one if hendlebars are to be used
 // app.use(express.static(path.join(__dirname, 'public')));
@@ -48,7 +41,7 @@ app.use(bodyParser.json());
 app.use(morgan('dev'));
 
 //override post to put
-app.use(methodOverride('_method'));
+// app.use(methodOverride('_method'));
 
 //Handlebars middleware
 //uncomment for handlebars setup, not angular
@@ -56,17 +49,17 @@ app.use(methodOverride('_method'));
 // app.set('view engine', 'handlebars');
 
 //session middleware, secret should be more secret
-app.use(session({
-    secret: 'secret',
-    resave: true,
-    saveUninitialized: true
-}));
-
-//Passport initializer
-app.use(passport.initialize());
-app.use(passport.session());
-//Passport config
-require('./config/passport').function(passport);
+// app.use(session({
+//     secret: 'secret',
+//     resave: true,
+//     saveUninitialized: true
+// }));
+//
+// //Passport initializer
+// app.use(passport.initialize());
+// app.use(passport.session());
+// //Passport config
+// require('./config/passport').function(passport);
 
 //flash middleware
 app.use(flash());
@@ -89,9 +82,9 @@ app.get('/', (req,res)=> {
     res.sendFile('index.html');
 });
 
-app.get('/about', (req,res) => {
-    res.render('about');
-});
+// app.get('/about', (req,res) => {
+//     res.render('about');
+// });
 
 
 const memosRoutes = require('./routes/memos');

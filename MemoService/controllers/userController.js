@@ -19,11 +19,40 @@ exports.get_login_form = function(req,res) {
 //         failureFlash: true
 //     })(req,res,next)};
 
-exports.log_user = function(req,res, next) {
+exports.log_user = (req,res, next) => {
     console.log("inside passport login function");
 
+    User.findById({_id: req.body._id})
+        .then( user => {
+                if (!user) {
+                    return res.status(401).json({
+                        title: 'Login failed',
+                        error: {message: "Invalid login credentials"}
+                    });
+                };
+                if(!bcrypt.compareSync(req.body.password, user.password)) {
+                    return res.status(401).json({
+                        title: 'Login failed',
+                        error: {message: "Invalid login credentials"}
+                    });
+                }
+
+                const token = jwt.sign({user: user}, JWTSecret, {expiresIn: 1440});
+                return res.status(200).json({
+                    message: 'successfull login',
+                    token: token,
+                })
+            }
+        )
+        .catch((err => {
+            res.status(400);
+            res.json({
+                "error": err.message
+        })
+    }))
+
     // const passport = require('passport').Passport;
-    passport.authorize('local', (req,res,info) => {
+    // passport.authorize('local', (req,res,info) => {
 
         //if passport throws any error
         // if(err) {
@@ -31,21 +60,21 @@ exports.log_user = function(req,res, next) {
         //     res.status(404).json(err);
         // }
 
-        console.log("not in error passport function");
-        //if user is found or else if no user found
-        if(user){
-            let token = jwt.sign(user.toJSON(), JWTSecret, {
-                expiresIn: 1440 // expires in 1 hour
-            });
-            res.status(200);
-            res.json({
-                "token" : token
-            })
-        } else {
-            res.status(401).json(info);
-        }
-
-    })(req,res,next)
+    //     console.log("not in error passport function");
+    //     //if user is found or else if no user found
+    //     if(user){
+    //         let token = jwt.sign(user.toJSON(), JWTSecret, {
+    //             expiresIn: 1440 // expires in 1 hour
+    //         });
+    //         res.status(200);
+    //         res.json({
+    //             "token" : token
+    //         })
+    //     } else {
+    //         res.status(401).json(info);
+    //     }
+    //
+    // })(req,res,next)
 };
 
 exports.logout = (req,res) => {
