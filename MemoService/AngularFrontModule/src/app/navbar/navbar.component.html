@@ -1,6 +1,6 @@
 <div class="container">
   <div class="pos-f-t">
-    <nav class="navbar navbar-light navbar-expand-sm bg-light mb-2">
+    <nav class="navbar navbar-light navbar-expand-sm bg-light mb-0">
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <a class="navbar-brand">Memo Service</a>
         <ul class="navbar-nav mr-auto">
@@ -22,7 +22,7 @@
                 <a [routerLink]="['/memos/add']"class="dropdown-item">Add Memo</a>
               </div>
             </li>
-            <li class="nav-item" *ngIf="!isLoggedIn">
+            <li class="nav-item"*ngIf="!isLoggedIn">
               <a [routerLink]="['/user/login']" class="nav-link">Login</a>
             </li>
         </ul>
@@ -30,28 +30,29 @@
       <button class="navbar-toggler" type="button" (click)="collapse=!collapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="navbar-collapse" (click)="collapse = false" [hidden]="collapse" *ngIf="collapse" style="margin-top: 10px;">
+    </nav>
+      <div (click)="collapse = true" [hidden]="collapse" >
         <ul class="navbar-nav mr-auto bg-light">
-          <li class="nav-item">
+          <li class="ml-3 nav-item">
             <a class="nav-link" [routerLink]="['/']">Home <span class="sr-only">(current)</span></a>
           </li>
-          <li class="nav-item">
+          <li class="ml-3 nav-item">
             <a class="nav-link" [routerLink]="['/about']">About</a>
           </li>
-          <li class="nav-item">
+          <li class="ml-3 nav-item">
             <a [routerLink]="['/user/logout']" class="nav-link" (click)="logout()" *ngIf="isLoggedIn">Logout</a>
           </li>
-          <li class="nav-item">
+          <li class="ml-3 nav-item">
             <a [routerLink]="['/memos']" class="nav-link" *ngIf="isLoggedIn">Memos</a>
           </li>
-          <li class="nav-item">
+          <li class="ml-3 nav-item">
             <a [routerLink]="['/memos/add']" class="nav-link" *ngIf="isLoggedIn">Add Memo</a>
           </li>
-          <li class="nav-item">
+          <li class="ml-3 nav-item">
             <a [routerLink]="['/user/login']" class="nav-link" *ngIf="!isLoggedIn">Login</a>
           </li>
         </ul>
       </div>
-    </nav>
   </div>
 </div>
+<div class="mb-2"></div>
