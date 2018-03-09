@@ -12,7 +12,7 @@
           </li>
         </ul>
         <ul class="navbar-nav ml-auto">
-          <div *ngIf="user">
+          <div *ngIf="isLoggedIn">
             <li class="nav-item">
               <a [routerLink]="['/user/logout']" class="nav-link" (click)="logout()">Logout</a>
             </li>
@@ -24,7 +24,7 @@
               </div>
             </li>
           </div>
-          <div *ngIf="!user">
+          <div *ngIf="!isLoggedIn">
             <li class="nav-item">
               <a [routerLink]="['/user/login']" class="nav-link">Login</a>
             </li>
@@ -39,12 +39,12 @@
       <div class="bg-light">
         <a class="nav-link" [routerLink]="['/']">Home <span class="sr-only">(current)</span></a>
         <a class="nav-link" [routerLink]="['/about']">About</a>
-        <div *ngIf="user">
+        <div *ngIf="isLoggedIn">
           <a [routerLink]="['/user/logout']" class="nav-link" (click)="logout()">Logout</a>
           <a [routerLink]="['/memos']" class="nav-link">Memos</a>
           <a [routerLink]="['/memos/add']" class="nav-link">Add Memo</a>
         </div>
-        <div *ngIf="!user">
+        <div *ngIf="!isLoggedIn">
           <a [routerLink]="['/user/login']" class="nav-link">Login</a>
         </div>
       </div>
