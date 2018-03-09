@@ -8,6 +8,7 @@ import {UserService} from "../user/user.service";
 })
 export class NavbarComponent implements OnInit, OnDestroy {
 
+  collapse: boolean = true;
   user = null;
   isLoggedIn: boolean = this._user.getLoggedIn();
 

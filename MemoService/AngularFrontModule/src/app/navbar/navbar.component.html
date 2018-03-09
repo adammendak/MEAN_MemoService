@@ -12,43 +12,46 @@
           </li>
         </ul>
         <ul class="navbar-nav ml-auto">
-          <div *ngIf="isLoggedIn">
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="isLoggedIn">
               <a [routerLink]="['/user/logout']" class="nav-link" (click)="logout()">Logout</a>
             </li>
-            <li class="nav-item dropdown">
+            <li class="nav-item dropdown" *ngIf="isLoggedIn">
               <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink">Memos</a>
               <div class="dropdown-menu">
                 <a [routerLink]="['/memos']" class="dropdown-item">Memos</a>
                 <a [routerLink]="['/memos/add']"class="dropdown-item">Add Memo</a>
               </div>
             </li>
-          </div>
-          <div *ngIf="!isLoggedIn">
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="!isLoggedIn">
               <a [routerLink]="['/user/login']" class="nav-link">Login</a>
             </li>
-          </div>
         </ul>
       </div>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" (click)="collapse=!collapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-    </nav>
-    <div class="collapse mb-2" style="margin-top: -10px;" id="navbarToggleExternalContent">
-      <div class="bg-light">
-        <a class="nav-link" [routerLink]="['/']">Home <span class="sr-only">(current)</span></a>
-        <a class="nav-link" [routerLink]="['/about']">About</a>
-        <div *ngIf="isLoggedIn">
-          <a [routerLink]="['/user/logout']" class="nav-link" (click)="logout()">Logout</a>
-          <a [routerLink]="['/memos']" class="nav-link">Memos</a>
-          <a [routerLink]="['/memos/add']" class="nav-link">Add Memo</a>
-        </div>
-        <div *ngIf="!isLoggedIn">
-          <a [routerLink]="['/user/login']" class="nav-link">Login</a>
-        </div>
+      <div class="navbar-collapse" (click)="collapse = false" [hidden]="collapse" *ngIf="collapse" style="margin-top: 10px;">
+        <ul class="navbar-nav mr-auto bg-light">
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/']">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/about']">About</a>
+          </li>
+          <li class="nav-item">
+            <a [routerLink]="['/user/logout']" class="nav-link" (click)="logout()" *ngIf="isLoggedIn">Logout</a>
+          </li>
+          <li class="nav-item">
+            <a [routerLink]="['/memos']" class="nav-link" *ngIf="isLoggedIn">Memos</a>
+          </li>
+          <li class="nav-item">
+            <a [routerLink]="['/memos/add']" class="nav-link" *ngIf="isLoggedIn">Add Memo</a>
+          </li>
+          <li class="nav-item">
+            <a [routerLink]="['/user/login']" class="nav-link" *ngIf="!isLoggedIn">Login</a>
+          </li>
+        </ul>
       </div>
-    </div>
-    <span class="mb-2"></span>
+    </nav>
   </div>
 </div>
