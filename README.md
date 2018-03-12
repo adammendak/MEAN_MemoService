@@ -1,3 +1,6 @@
-# nodeProjects
-repository with projects that I make in node.js 
+# Memo Service
+repository for my project 
+www.memo.adammendak.pl
+
+
 
