@@ -21,7 +21,9 @@ export class UserService {
           // res = JSON.stringify(res);
           console.log("to jest obj" + JSON.stringify(res));
           localStorage.setItem('token', res['token']);
-          localStorage.setItem('user', res['user']);
+          localStorage.setItem('userId', JSON.stringify(res['user']['_id']));
+          localStorage.setItem('username', JSON.stringify(res['user']['username']));
+          localStorage.setItem('userEmail', JSON.stringify(res['user']['email']));
           this.isLoggedIn = true;
           this.userLoggedInEmitter.emit(true);
           this.router.navigate(['/welcome']);
@@ -57,3 +59,4 @@ export class UserService {
   }
 
 }
+

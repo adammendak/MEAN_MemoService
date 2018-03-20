@@ -18,7 +18,7 @@ export class WelcomeComponent implements OnInit, OnDestroy {
     this._user.userLoggedInEmitter
       .subscribe((boolean?) => {
         this.isLoggedIn = boolean;
-        this.user =
+        this.user = localStorage.getItem('user');
       })
   }
 
