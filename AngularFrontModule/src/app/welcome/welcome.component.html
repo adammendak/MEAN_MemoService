@@ -9,7 +9,7 @@
    <a [routerLink]="['/user/login']" class="btn btn-primary btn-lg">Login</a>
  </div>
   <div *ngIf="isLoggedIn">
-    <p class="lead">Welcome {{this.user.username}}</p>
+    <p class="lead">Welcome {{localStorage.getItem('username')}}</p>
     <a [routerLink]="['/user/memos']" class="btn btn-primary btn-lg">See Your Memos</a>
   </div>
 </div>
