@@ -9,6 +9,7 @@ export class UserService {
 
   userLoggedInEmitter: EventEmitter<any> = new EventEmitter<any>();
   isLoggedIn: boolean = false;
+  user = null;
 
   constructor(private _http: HttpClient, private router: Router) { }
 
@@ -20,6 +21,7 @@ export class UserService {
           // res = JSON.stringify(res);
           console.log("to jest obj" + JSON.stringify(res));
           localStorage.setItem('token', res['token']);
+          localStorage.setItem('user', res['user']);
           this.isLoggedIn = true;
           this.userLoggedInEmitter.emit(true);
           this.router.navigate(['/welcome']);

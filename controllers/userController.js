@@ -31,7 +31,8 @@ exports.log_user = (req,res, next) => {
                 const token = jwt.sign({user: user}, JWTSecret, {expiresIn: 1440});
                 return res.status(200).json({
                     message: 'successfull login',
-                    token: token
+                    token: token,
+                    user: user
                 })
             }
         )
@@ -92,7 +93,8 @@ exports.register_new_user = (req,res) => {
                                 res.status(201);
                                 res.json({
                                     "message" : "user created successfully",
-                                    "token": token
+                                    "token": token,
+                                    "user" : newUser
                                 })
 
                             }).catch(err => {

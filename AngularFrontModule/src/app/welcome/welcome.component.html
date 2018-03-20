@@ -4,8 +4,12 @@
     <p class="lead">Put down memos:</p>
     <a [routerLink]="['/memos/add']" class="btn btn-success btn-lg">Add new Memo</a>
   </div>
- <div *ngIf="!user">
+ <div *ngIf="!isLoggedIn">
    <p class="lead">Login to see Your memos</p>
    <a [routerLink]="['/user/login']" class="btn btn-primary btn-lg">Login</a>
  </div>
+  <div *ngIf="isLoggedIn">
+    <p class="lead">Welcome {{this.user.username}}</p>
+    <a [routerLink]="['/user/memos']" class="btn btn-primary btn-lg">See Your Memos</a>
+  </div>
 </div>
