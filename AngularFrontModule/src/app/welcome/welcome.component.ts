@@ -13,11 +13,10 @@ export class WelcomeComponent implements OnInit {
 
   title: String = "Memo Service";
 
-  // constructor(@Inject(TOASTR_TOKEN) private _toastr: Toastr) { }
   constructor( private _toastr: ToastrService) { }
 
   ngOnInit() {
-    // this._toastr.info("test message toastr");
+    this._toastr.info("user logged in");
   }
 
 }
